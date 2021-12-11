@@ -1,0 +1,34 @@
+@startuml
+
+skinparam participant {
+    BackgroundColor white
+    BorderColor orange
+}
+skinparam actor {
+    BackgroundColor white
+    BorderColor orange
+}
+skinparam SequenceDividerBackgroundColor white
+
+participant "Club Activity Listener" as cal
+participant "Strava API" as sapi
+participant "Kafka" as kafka
+participant "Slack" as slack
+database "Store" as store
+
+Title Strava Club Data
+
+cal -> sapi: pool Strava club data
+activate sapi
+sapi --> cal: new club member activity
+deactivate sapi
+cal -> kafka: send message with activity data
+cal -> store: store new user activity data
+note left cal
+consume Kafka message
+end note
+activate cal
+cal -> slack: send Slack message
+deactivate cal
+
+@enduml
