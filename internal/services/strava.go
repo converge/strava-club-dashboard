@@ -7,9 +7,7 @@ import (
 	"os"
 )
 
-type StravaService struct {
-	//KafkaManager
-}
+type StravaService struct {}
 
 func NewStrava() StravaService {
 	return StravaService{}
