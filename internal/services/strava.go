@@ -73,22 +73,6 @@ func (service StravaService) ProduceKafkaMessage(rca RiderClubActivity) error {
 
 func (service StravaService) GetKafkaMessage() error {
 
-	//log.Info().Msg("loading get kafka...")
-	//// config
-	//bootstrapServer := os.Getenv("BOOTSTRAP_SERVER")
-	//
-	//conf := kafka.ConfigMap{}
-	//conf["bootstrap.servers"] = bootstrapServer
-	//conf["group.id"] = "kafka-go-getting-started"
-	//conf["auto.offset.reset"] = "earliest"
-	//
-	//c, err := kafka.NewConsumer(&conf)
-	//if err != nil {
-	//	log.Info().Msg("failed to create consumer")
-	//	panic(err)
-	//}
-	//log.Info().Msg("consumer started")
-
 	topic := "strava-club-activities"
 	err := service.Consumer.SubscribeTopics([]string{topic}, nil)
 	if err != nil {
@@ -97,6 +81,7 @@ func (service StravaService) GetKafkaMessage() error {
 	}
 
 	// Process messages
+	// todo: endloop
 	for {
 		log.Info().Msg("waiting new messages...")
 		msg, err := service.Consumer.ReadMessage(-1)
@@ -106,6 +91,6 @@ func (service StravaService) GetKafkaMessage() error {
 			log.Error().Msgf("consumer error: %v (%v)", err, msg)
 		}
 	}
-	//service.Close()
+
 	return nil
 }

@@ -26,13 +26,12 @@ func main() {
 	}
 	defer kafkaProducer.Close()
 
-
 	kafkaConsumer, err := kafka.NewConsumer(&conf)
 	if err != nil {
 		log.Info().Msg("failed to create consumer")
 		panic(err)
 	}
-	//defer kafkaConsumer.Close()
+	defer kafkaConsumer.Close()
 
 	stravaService := services.NewStrava(kafkaProducer, kafkaConsumer)
 	stravaHandler := handlers.NewStrava(httpClient, stravaService)
@@ -43,7 +42,6 @@ func main() {
 	if err != nil {
 		log.Err(err)
 	}
-	kafkaConsumer.Close()
 
 	// store data / insert if not exist
 	// send slack msg
