@@ -10,11 +10,13 @@ import (
 )
 
 func main() {
+
+	// todo: setup
 	httpClient := http.DefaultClient
 
 	conf := kafka.ConfigMap{}
 	bootstrapServer := os.Getenv("BOOTSTRAP_SERVER")
-	conf["group.id"] = "kafka-go-getting-started"
+	conf["group.id"] = "strava-group-id"
 	conf["auto.offset.reset"] = "earliest"
 	conf["bootstrap.servers"] = bootstrapServer
 
